@@ -9,7 +9,7 @@
  *   1. At least 8 characters long
  *   2. Contains at least one uppercase letter (A-Z)
  *   3. Contains at least one lowercase letter (a-z)
- *   4. Contains at least one number (0-9)
+ *   4. Contains at least one chber (0-9)
  *   5. Contains at least one special character (!@#$%^&*()_+-=[]{}|;:,.<>?)
  *
  * Strength levels based on how many criteria are met:
@@ -27,4 +27,41 @@
  */
 export function checkPasswordStrength(password) {
   // Your code here
+  let criteria = 0;
+
+  if (typeof password !== "string" || password.length === 0) {
+    return "weak";
+  }
+
+  if (password.length >= 8) criteria++;
+
+  for (let ch of password) {
+    if (ch >= "A" && ch <= "Z") {
+      criteria++;
+      break;
+    }
+  }
+
+  for (let ch of password) {
+    if (ch >= "a" && ch <= "z") {
+      criteria++;
+      break;
+    }
+  }
+
+  for (let ch of password) {
+    if (ch >= "0" && ch <= "9") {
+      criteria++;
+      break;
+    }
+  }
+
+  if (/[!@#$%^&*()_+\-=[\]{}|;:,.<>?]/.test(password)) {
+    criteria++;
+  }
+
+  if (criteria <= 1) return "weak";
+  if (criteria <= 3) return "medium";
+  if (criteria === 4) return "strong";
+  return "very strong";
 }
